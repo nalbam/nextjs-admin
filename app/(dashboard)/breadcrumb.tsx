@@ -13,18 +13,27 @@ import {
 } from '@/components/ui/breadcrumb';
 import { BreadcrumbLabel } from './breadcrumb-label';
 
+const pathLabels: Record<string, string> = {
+  products: 'Products',
+  orders: 'Orders',
+  customers: 'Customers',
+  analytics: 'Analytics',
+  settings: 'Settings'
+};
+
 function BreadcrumbSegment({ segment, href, isLast }: { segment: string; href: string; isLast: boolean }) {
+  const label = pathLabels[segment] || segment;
   return (
     <>
       <BreadcrumbItem>
         {isLast ? (
           <BreadcrumbPage>
-            <BreadcrumbLabel segment={segment} />
+            <BreadcrumbLabel segment={label} />
           </BreadcrumbPage>
         ) : (
           <BreadcrumbLink asChild>
             <Link href={href}>
-              <BreadcrumbLabel segment={segment} />
+              <BreadcrumbLabel segment={label} />
             </Link>
           </BreadcrumbLink>
         )}
