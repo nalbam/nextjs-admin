@@ -25,7 +25,7 @@ export default async function ProductPage(
     <div className="grid gap-4">
       <Card>
         <CardHeader>
-          <CardTitle>제품 상세 정보</CardTitle>
+          <CardTitle>{product.name}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid gap-6">

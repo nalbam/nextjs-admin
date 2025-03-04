@@ -10,7 +10,7 @@ import {
   ShoppingCart,
   Users2
 } from 'lucide-react';
-import { DashboardBreadcrumb } from './breadcrumb';
+import DashboardBreadcrumb from './breadcrumb';
 
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 import Link from 'next/link';
@@ -11,31 +11,41 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator
 } from '@/components/ui/breadcrumb';
+import { BreadcrumbLabel } from './breadcrumb-label';
 
-export function DashboardBreadcrumb() {
+function BreadcrumbSegment({ segment, href, isLast }: { segment: string; href: string; isLast: boolean }) {
+  return (
+    <>
+      <BreadcrumbItem>
+        {isLast ? (
+          <BreadcrumbPage>
+            <BreadcrumbLabel segment={segment} />
+          </BreadcrumbPage>
+        ) : (
+          <BreadcrumbLink asChild>
+            <Link href={href}>
+              <BreadcrumbLabel segment={segment} />
+            </Link>
+          </BreadcrumbLink>
+        )}
+      </BreadcrumbItem>
+      {!isLast && <BreadcrumbSeparator />}
+    </>
+  );
+}
+
+export default function DashboardBreadcrumb() {
   const pathname = usePathname();
   const segments = pathname.split('/').filter(Boolean);
 
-  const breadcrumbItems = segments.map((segment: string, index: number) => {
-    const href = `/${segments.slice(0, index + 1).join('/')}`;
-    const label = segment.charAt(0).toUpperCase() + segment.slice(1);
-    const isLast = index === segments.length - 1;
-
-    return (
-      <React.Fragment key={href}>
-        <BreadcrumbItem>
-          {isLast ? (
-            <BreadcrumbPage>{label}</BreadcrumbPage>
-          ) : (
-            <BreadcrumbLink asChild>
-              <Link href={href}>{label}</Link>
-            </BreadcrumbLink>
-          )}
-        </BreadcrumbItem>
-        {!isLast && <BreadcrumbSeparator />}
-      </React.Fragment>
-    );
-  });
+  const items = segments.map((segment: string, index: number) => (
+    <BreadcrumbSegment
+      key={segment}
+      segment={segment}
+      href={`/${segments.slice(0, index + 1).join('/')}`}
+      isLast={index === segments.length - 1}
+    />
+  ));
 
   return (
     <Breadcrumb className="hidden md:flex">
@@ -46,7 +56,7 @@ export function DashboardBreadcrumb() {
           </BreadcrumbLink>
         </BreadcrumbItem>
         {segments.length > 0 && <BreadcrumbSeparator />}
-        {breadcrumbItems}
+        {items}
       </BreadcrumbList>
     </Breadcrumb>
   );
