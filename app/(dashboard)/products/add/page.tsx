@@ -42,27 +42,27 @@ export default function AddProductPage() {
     <div className="grid gap-4">
       <Card>
         <CardHeader>
-          <CardTitle>새 상품 추가</CardTitle>
+          <CardTitle>Add New Product</CardTitle>
         </CardHeader>
         <CardContent>
           <form action={addProduct} className="grid gap-4">
             <div className="grid gap-2">
-              <label htmlFor="name">상품명</label>
+              <label htmlFor="name">Product Name</label>
               <Input id="name" name="name" required />
             </div>
 
             <div className="grid gap-2">
-              <label htmlFor="description">설명</label>
+              <label htmlFor="description">Description</label>
               <Textarea id="description" name="description" />
             </div>
 
             <div className="grid gap-2">
-              <label htmlFor="imageUrl">이미지 URL</label>
+              <label htmlFor="imageUrl">Image URL</label>
               <Input id="imageUrl" name="imageUrl" type="url" required />
             </div>
 
             <div className="grid gap-2">
-              <label htmlFor="price">가격</label>
+              <label htmlFor="price">Price</label>
               <Input
                 id="price"
                 name="price"
@@ -74,7 +74,7 @@ export default function AddProductPage() {
             </div>
 
             <div className="grid gap-2">
-              <label htmlFor="stock">재고</label>
+              <label htmlFor="stock">Stock</label>
               <Input
                 id="stock"
                 name="stock"
@@ -86,10 +86,10 @@ export default function AddProductPage() {
             </div>
 
             <div className="grid gap-2">
-              <label htmlFor="status">상태</label>
+              <label htmlFor="status">Status</label>
               <Select name="status" defaultValue="active">
                 <SelectTrigger>
-                  <SelectValue placeholder="상태 선택" />
+                  <SelectValue placeholder="Select status" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="active">Active</SelectItem>
@@ -100,7 +100,7 @@ export default function AddProductPage() {
             </div>
 
             <Button type="submit" className="w-full">
-              상품 추가
+              Add Product
             </Button>
           </form>
         </CardContent>

@@ -61,7 +61,7 @@ export default async function ProductPage(
                   <p>{product.stock} units</p>
                 </div>
                 <div>
-                  <h3 className="font-semibold">Available Date</h3>
+                  <h3 className="font-semibold">Available At</h3>
                   <p>{product.availableAt.toISOString().split('T')[0]}</p>
                 </div>
               </div>
