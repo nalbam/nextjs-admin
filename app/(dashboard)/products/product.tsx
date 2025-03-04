@@ -16,7 +16,7 @@ import { deleteProduct, updateProductStatus } from './actions';
 
 export function Product({ product }: { product: SelectProduct }) {
   return (
-    <TableRow className="cursor-pointer hover:bg-muted/50" onClick={() => window.location.href = `/products/${product.id}`}>
+    <TableRow className="cursor-pointer hover:bg-muted/50" onClick={() => window.location.href = `/products/form?id=${product.id}`}>
       <TableCell className="hidden sm:table-cell">
         <Image
           alt="Product image"
@@ -60,9 +60,6 @@ export function Product({ product }: { product: SelectProduct }) {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem asChild>
-              <Link href={`/products/${product.id}/edit`}>Edit</Link>
-            </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <form
                 action={updateProductStatus}

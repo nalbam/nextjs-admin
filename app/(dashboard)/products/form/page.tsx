@@ -9,56 +9,68 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { db, products, statusEnum } from '@/lib/db';
-import { redirect } from 'next/navigation';
+import { db, products } from '@/lib/db';
+import { eq } from 'drizzle-orm';
+import { saveProduct } from '../actions';
+import { notFound } from 'next/navigation';
 
-async function addProduct(formData: FormData) {
-  'use server';
+export default async function ProductFormPage({
+  searchParams,
+}: {
+  searchParams?: { id?: string };
+}) {
+  let product = null;
 
-  const name = formData.get('name') as string;
-  const description = formData.get('description') as string;
-  const imageUrl = formData.get('imageUrl') as string;
-  const price = formData.get('price') as string;
-  const stock = formData.get('stock') as string;
-  const status = formData.get('status') as 'active' | 'inactive' | 'archived';
+  if (searchParams?.id) {
+    product = await db
+      .select()
+      .from(products)
+      .where(eq(products.id, parseInt(searchParams.id)))
+      .then((res) => res[0]);
 
-  const productData = {
-    name,
-    description,
-    imageUrl,
-    price: parseFloat(price).toString(),
-    stock: parseInt(stock),
-    status,
-    availableAt: new Date(new Date().toISOString().split('T')[0]),
-  };
+    if (!product) {
+      notFound();
+    }
+  }
 
-  await db.insert(products).values(productData);
-
-  redirect('/products');
-}
-
-export default function AddProductPage() {
   return (
     <div className="grid gap-4">
       <Card>
         <CardHeader>
-          <CardTitle>Add New Product</CardTitle>
+          <CardTitle>{product ? 'Edit Product' : 'Add New Product'}</CardTitle>
         </CardHeader>
         <CardContent>
-          <form action={addProduct} className="grid gap-4">
+          <form action={saveProduct} className="grid gap-4">
+            {product && <Input type="hidden" name="id" value={product.id.toString()} />}
+
             <div className="grid gap-2">
               <label htmlFor="name">Product Name</label>
-              <Input id="name" name="name" required />
+              <Input
+                id="name"
+                name="name"
+                defaultValue={product?.name}
+                required
+              />
             </div>
 
             <div className="grid gap-2">
               <label htmlFor="description">Description</label>
-              <Textarea id="description" name="description" />
+              <Textarea
+                id="description"
+                name="description"
+                defaultValue={product?.description || ''}
+              />
             </div>
 
             <div className="grid gap-2">
               <label htmlFor="imageUrl">Image URL</label>
-              <Input id="imageUrl" name="imageUrl" type="url" required />
+              <Input
+                id="imageUrl"
+                name="imageUrl"
+                type="url"
+                defaultValue={product?.imageUrl}
+                required
+              />
             </div>
 
             <div className="grid gap-2">
@@ -69,6 +81,7 @@ export default function AddProductPage() {
                 type="number"
                 min="0"
                 step="0.01"
+                defaultValue={product?.price}
                 required
               />
             </div>
@@ -81,13 +94,14 @@ export default function AddProductPage() {
                 type="number"
                 min="0"
                 step="1"
+                defaultValue={product?.stock}
                 required
               />
             </div>
 
             <div className="grid gap-2">
               <label htmlFor="status">Status</label>
-              <Select name="status" defaultValue="active">
+              <Select name="status" defaultValue={product?.status || 'active'}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select status" />
                 </SelectTrigger>
@@ -100,7 +114,7 @@ export default function AddProductPage() {
             </div>
 
             <Button type="submit" className="w-full">
-              Add Product
+              {product ? 'Update Product' : 'Add Product'}
             </Button>
           </form>
         </CardContent>
