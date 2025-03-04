@@ -34,9 +34,13 @@ export function Product({ product }: { product: SelectProduct }) {
               ? 'secondary'
               : product.status === 'inactive'
               ? 'destructive'
-              : 'outline'
+              : 'default'
           }
-          className="capitalize"
+          className={
+            product.status === 'active'
+              ? 'bg-green-100 text-green-700 hover:bg-green-100 hover:text-green-700 capitalize'
+              : 'capitalize'
+          }
         >
           {product.status}
         </Badge>
@@ -66,7 +70,7 @@ export function Product({ product }: { product: SelectProduct }) {
               >
                 <input type="hidden" name="id" value={product.id} />
                 <input type="hidden" name="status" value="active" />
-                <button type="submit" className="w-full text-left">
+                <button type="submit" className="w-full text-left text-green-700 hover:text-green-700">
                   Active
                 </button>
               </form>
@@ -78,8 +82,8 @@ export function Product({ product }: { product: SelectProduct }) {
               >
                 <input type="hidden" name="id" value={product.id} />
                 <input type="hidden" name="status" value="inactive" />
-                <button type="submit" className="w-full text-left">
-                  Draft
+                <button type="submit" className="w-full text-left text-destructive hover:text-destructive">
+                  Inactive
                 </button>
               </form>
             </DropdownMenuItem>
@@ -90,7 +94,7 @@ export function Product({ product }: { product: SelectProduct }) {
               >
                 <input type="hidden" name="id" value={product.id} />
                 <input type="hidden" name="status" value="archived" />
-                <button type="submit" className="w-full text-left">
+                <button type="submit" className="w-full text-left text-secondary-foreground hover:text-secondary-foreground">
                   Archived
                 </button>
               </form>

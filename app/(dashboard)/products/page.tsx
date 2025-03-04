@@ -12,7 +12,7 @@ export default async function ProductsPage(
   const currentTab = tab ?? 'all';
 
   const status = currentTab === 'all' ? undefined :
-                currentTab === 'draft' ? 'inactive' :
+                currentTab === 'inactive' ? 'inactive' :
                 currentTab as 'active' | 'inactive' | 'archived';
 
   const { products, newOffset, totalProducts } = await getProducts(
