@@ -11,7 +11,7 @@ import {
   pgEnum,
   serial
 } from 'drizzle-orm/pg-core';
-import { count, eq, ilike } from 'drizzle-orm';
+import { count, eq, ilike, and } from 'drizzle-orm';
 import { createInsertSchema } from 'drizzle-zod';
 
 export const db = drizzle(neon(process.env.POSTGRES_URL!));
@@ -33,35 +33,34 @@ export const insertProductSchema = createInsertSchema(products);
 
 export async function getProducts(
   search: string,
-  offset: number
+  offset: number,
+  status?: 'active' | 'inactive' | 'archived'
 ): Promise<{
   products: SelectProduct[];
   newOffset: number | null;
   totalProducts: number;
 }> {
-  // Always search the full table, not per page
+  // Build where conditions
+  const conditions = [];
   if (search) {
-    return {
-      products: await db
-        .select()
-        .from(products)
-        .where(ilike(products.name, `%${search}%`))
-        .limit(1000),
-      newOffset: null,
-      totalProducts: 0
-    };
+    conditions.push(ilike(products.name, `%${search}%`));
+  }
+  if (status) {
+    conditions.push(eq(products.status, status));
   }
 
-  if (offset === null) {
-    return { products: [], newOffset: null, totalProducts: 0 };
-  }
-
-  const totalProducts = await db.select({ count: count() }).from(products);
+  // Get total count with filters
+  const totalProducts = await db
+    .select({ count: count() })
+    .from(products)
+    .where(and(...conditions));
   const total = totalProducts[0].count;
 
+  // Get filtered and paginated results
   const result = await db
     .select()
     .from(products)
+    .where(and(...conditions))
     .limit(3)
     .offset(offset);
 

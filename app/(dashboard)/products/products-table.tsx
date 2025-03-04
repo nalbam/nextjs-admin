@@ -37,12 +37,16 @@ export function ProductsTable({
 
   function prevPage() {
     const prevOffset = Math.max(0, offset - productsPerPage);
-    router.push(`/products?offset=${prevOffset}`, { scroll: false });
+    const params = new URLSearchParams(window.location.search);
+    params.set('offset', prevOffset.toString());
+    router.push(`/products?${params.toString()}`, { scroll: false });
   }
 
   function nextPage() {
     const nextOffset = Math.min(lastOffset, offset + productsPerPage);
-    router.push(`/products?offset=${nextOffset}`, { scroll: false });
+    const params = new URLSearchParams(window.location.search);
+    params.set('offset', nextOffset.toString());
+    router.push(`/products?${params.toString()}`, { scroll: false });
   }
 
   return (
