@@ -18,7 +18,8 @@ export default async function ProductsPage(
   const { products, newOffset, totalProducts } = await getProducts(
     search,
     Number(currentOffset),
-    status
+    status,
+    { tags: ['products'] }
   );
 
   return (

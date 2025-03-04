@@ -35,7 +35,8 @@ export const insertProductSchema = createInsertSchema(products);
 export async function getProducts(
   search: string,
   offset: number,
-  status?: 'active' | 'inactive' | 'archived'
+  status?: 'active' | 'inactive' | 'archived',
+  options?: { tags?: string[] }
 ): Promise<{
   products: SelectProduct[];
   newOffset: number | null;

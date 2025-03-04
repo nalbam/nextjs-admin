@@ -12,7 +12,7 @@ import {
 import { MoreHorizontal } from 'lucide-react';
 import { TableCell, TableRow } from '@/components/ui/table';
 import { SelectProduct } from '@/lib/db';
-import { deleteProduct } from './actions';
+import { deleteProduct, updateProductStatus } from './actions';
 
 export function Product({ product }: { product: SelectProduct }) {
   return (
@@ -56,10 +56,43 @@ export function Product({ product }: { product: SelectProduct }) {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem>
-              <form action={deleteProduct}>
-                <button type="submit">Delete</button>
+            <DropdownMenuItem asChild>
+              <Link href={`/products/${product.id}/edit`}>Edit</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <form
+                action={updateProductStatus}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <input type="hidden" name="id" value={product.id} />
+                <input type="hidden" name="status" value="active" />
+                <button type="submit" className="w-full text-left">
+                  Active
+                </button>
+              </form>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <form
+                action={updateProductStatus}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <input type="hidden" name="id" value={product.id} />
+                <input type="hidden" name="status" value="inactive" />
+                <button type="submit" className="w-full text-left">
+                  Draft
+                </button>
+              </form>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <form
+                action={updateProductStatus}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <input type="hidden" name="id" value={product.id} />
+                <input type="hidden" name="status" value="archived" />
+                <button type="submit" className="w-full text-left">
+                  Archived
+                </button>
               </form>
             </DropdownMenuItem>
           </DropdownMenuContent>
