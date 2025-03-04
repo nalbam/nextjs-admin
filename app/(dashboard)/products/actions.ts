@@ -21,7 +21,7 @@ export async function saveProduct(formData: FormData) {
     price: parseFloat(price).toString(),
     stock: parseInt(stock),
     status,
-    availableAt: new Date(new Date().toISOString().split('T')[0]),
+    availableAt: new Date(),
   };
 
   if (id) {
