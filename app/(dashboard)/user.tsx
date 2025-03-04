@@ -35,15 +35,16 @@ export async function User() {
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Settings</DropdownMenuItem>
-        <DropdownMenuItem>Support</DropdownMenuItem>
+        <DropdownMenuItem>
+          <Link href="/my/settings">Settings</Link>
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
         {user ? (
           <DropdownMenuItem>
             <form
               action={async () => {
                 'use server';
-                await signOut();
+                await signOut({ redirectTo: '/' });
               }}
             >
               <button type="submit">Sign Out</button>
