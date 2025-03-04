@@ -56,14 +56,19 @@ export async function getProducts(
     return { products: [], newOffset: null, totalProducts: 0 };
   }
 
-  let totalProducts = await db.select({ count: count() }).from(products);
-  let moreProducts = await db.select().from(products).limit(3).offset(offset);
-  let newOffset = moreProducts.length >= 3 ? offset + 3 : null;
+  const totalProducts = await db.select({ count: count() }).from(products);
+  const total = totalProducts[0].count;
+
+  const result = await db
+    .select()
+    .from(products)
+    .limit(3)
+    .offset(offset);
 
   return {
-    products: moreProducts,
-    newOffset,
-    totalProducts: totalProducts[0].count
+    products: result,
+    newOffset: offset + 3 < total ? offset + 3 : null,
+    totalProducts: total
   };
 }
 

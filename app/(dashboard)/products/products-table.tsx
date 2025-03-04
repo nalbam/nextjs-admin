@@ -33,12 +33,16 @@ export function ProductsTable({
   let router = useRouter();
   let productsPerPage = 3;
 
+  const lastOffset = Math.max(0, Math.ceil(totalProducts / productsPerPage) - 1) * productsPerPage;
+
   function prevPage() {
-    router.back();
+    const prevOffset = Math.max(0, offset - productsPerPage);
+    router.push(`/products?offset=${prevOffset}`, { scroll: false });
   }
 
   function nextPage() {
-    router.push(`/products?offset=${offset}`, { scroll: false });
+    const nextOffset = Math.min(lastOffset, offset + productsPerPage);
+    router.push(`/products?offset=${nextOffset}`, { scroll: false });
   }
 
   return (
@@ -80,7 +84,7 @@ export function ProductsTable({
           <div className="text-xs text-muted-foreground">
             Showing{' '}
             <strong>
-              {Math.max(0, Math.min(offset - productsPerPage, totalProducts) + 1)}-{offset}
+              {offset + 1}-{Math.min(offset + productsPerPage, totalProducts)}
             </strong>{' '}
             of <strong>{totalProducts}</strong> products
           </div>
@@ -90,7 +94,7 @@ export function ProductsTable({
               variant="ghost"
               size="sm"
               type="submit"
-              disabled={offset === productsPerPage}
+              disabled={offset <= 0}
             >
               <ChevronLeft className="mr-2 h-4 w-4" />
               Prev
@@ -100,7 +104,7 @@ export function ProductsTable({
               variant="ghost"
               size="sm"
               type="submit"
-              disabled={offset + productsPerPage > totalProducts}
+              disabled={offset + productsPerPage >= totalProducts}
             >
               Next
               <ChevronRight className="ml-2 h-4 w-4" />
