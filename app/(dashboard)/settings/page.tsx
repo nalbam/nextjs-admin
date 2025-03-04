@@ -1,6 +1,10 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+'use client';
 
-export default async function SettingsPage() {
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useTheme } from '@/lib/theme-provider';
+
+export default function SettingsPage() {
+  const { theme, setTheme } = useTheme();
   return (
     <div className="container mx-auto py-10">
       <h1 className="text-2xl font-bold mb-6">Settings</h1>
@@ -29,10 +33,14 @@ export default async function SettingsPage() {
                   <h3 className="font-medium">Theme</h3>
                   <p className="text-sm text-gray-500">Choose your preferred dashboard theme</p>
                 </div>
-                <select className="border rounded p-2">
-                  <option>Light</option>
-                  <option>Dark</option>
-                  <option>System</option>
+                <select
+                  className="border rounded p-2"
+                  value={theme}
+                  onChange={(e) => setTheme(e.target.value as 'light' | 'dark' | 'system')}
+                >
+                  <option value="light">Light</option>
+                  <option value="dark">Dark</option>
+                  <option value="system">System</option>
                 </select>
               </div>
             </div>
