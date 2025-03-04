@@ -29,7 +29,7 @@ async function addProduct(formData: FormData) {
     price: parseFloat(price).toString(),
     stock: parseInt(stock),
     status,
-    availableAt: new Date(),
+    availableAt: new Date(new Date().toISOString().split('T')[0]),
   };
 
   await db.insert(products).values(productData);

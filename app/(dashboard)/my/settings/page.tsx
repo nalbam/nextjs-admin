@@ -35,7 +35,7 @@ export default async function SettingsPage() {
                 </div>
                 <div className="flex">
                   <dt className="w-32 text-gray-500">Account Created</dt>
-                  <dd>{new Date().toLocaleDateString()}</dd>
+                  <dd>{new Date().toISOString().split('T')[0]}</dd>
                 </div>
               </dl>
             </div>

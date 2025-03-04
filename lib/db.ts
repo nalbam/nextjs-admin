@@ -11,7 +11,7 @@ import {
   pgEnum,
   serial
 } from 'drizzle-orm/pg-core';
-import { count, eq, ilike, and } from 'drizzle-orm';
+import { count, eq, ilike, and, desc } from 'drizzle-orm';
 import { createInsertSchema } from 'drizzle-zod';
 
 export const db = drizzle(neon(process.env.POSTGRES_URL!));
@@ -62,6 +62,7 @@ export async function getProducts(
     .select()
     .from(products)
     .where(and(...conditions))
+    .orderBy(desc(products.availableAt))
     .limit(3)
     .offset(offset);
 

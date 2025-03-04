@@ -53,22 +53,22 @@ export default async function ProductPage(
               />
               <div className="grid gap-4">
                 <div>
-                  <h3 className="font-semibold">가격</h3>
+                  <h3 className="font-semibold">Price</h3>
                   <p className="text-lg font-semibold text-primary">${product.price}</p>
                 </div>
                 <div>
-                  <h3 className="font-semibold">재고</h3>
-                  <p>{product.stock} 개</p>
+                  <h3 className="font-semibold">Stock</h3>
+                  <p>{product.stock} units</p>
                 </div>
                 <div>
-                  <h3 className="font-semibold">출시일</h3>
-                  <p>{product.availableAt.toLocaleDateString("ko-KR")}</p>
+                  <h3 className="font-semibold">Available Date</h3>
+                  <p>{product.availableAt.toISOString().split('T')[0]}</p>
                 </div>
               </div>
             </div>
             {product.description && (
               <div>
-                <h3 className="font-semibold">설명</h3>
+                <h3 className="font-semibold">Description</h3>
                 <p className="text-muted-foreground">{product.description}</p>
               </div>
             )}
