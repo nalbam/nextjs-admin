@@ -38,7 +38,16 @@ export default async function ProductPage({
               />
               <div className="grid gap-2">
                 <h2 className="text-2xl font-bold">{product.name}</h2>
-                <Badge variant="outline" className="w-fit capitalize">
+                <Badge
+                  variant={
+                    product.status === 'archived'
+                      ? 'secondary'
+                      : product.status === 'inactive'
+                      ? 'destructive'
+                      : 'outline'
+                  }
+                  className="w-fit capitalize"
+                >
                   {product.status}
                 </Badge>
                 <p className="text-lg font-semibold text-primary">

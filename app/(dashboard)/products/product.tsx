@@ -28,7 +28,16 @@ export function Product({ product }: { product: SelectProduct }) {
       </TableCell>
       <TableCell className="font-medium">{product.name}</TableCell>
       <TableCell>
-        <Badge variant="outline" className="capitalize">
+        <Badge
+          variant={
+            product.status === 'archived'
+              ? 'secondary'
+              : product.status === 'inactive'
+              ? 'destructive'
+              : 'outline'
+          }
+          className="capitalize"
+        >
           {product.status}
         </Badge>
       </TableCell>
