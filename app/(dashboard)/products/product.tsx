@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -15,7 +16,7 @@ import { deleteProduct } from './actions';
 
 export function Product({ product }: { product: SelectProduct }) {
   return (
-    <TableRow>
+    <TableRow className="cursor-pointer hover:bg-muted/50" onClick={() => window.location.href = `/products/${product.id}`}>
       <TableCell className="hidden sm:table-cell">
         <Image
           alt="Product image"
