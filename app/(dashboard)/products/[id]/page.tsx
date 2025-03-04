@@ -5,15 +5,16 @@ import { db, products } from '@/lib/db';
 import { eq } from 'drizzle-orm';
 import { notFound } from 'next/navigation';
 
-export default async function ProductPage({
-  params
-}: {
-  params: { id: string };
-}) {
+export default async function ProductPage(
+  props: {
+    params: Promise<{ id: string }>;
+  }
+) {
+  const { id } = await props.params;
   const product = await db
     .select()
     .from(products)
-    .where(eq(products.id, parseInt(params.id)))
+    .where(eq(products.id, parseInt(id)))
     .then(res => res[0]);
 
   if (!product) {

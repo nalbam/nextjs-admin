@@ -3,30 +3,30 @@ import { ProductTabs } from './product-tabs';
 
 export default async function ProductsPage(
   props: {
-    searchParams: Promise<{ q: string; offset: string; tab: string }>;
+    searchParams: Promise<{ q?: string; offset?: string; tab?: string }>;
   }
 ) {
-  const searchParams = await props.searchParams;
-  const search = searchParams.q ?? '';
-  const offset = searchParams.offset ?? 0;
-  const tab = searchParams.tab ?? 'all';
+  const { q, offset, tab } = await props.searchParams;
+  const search = q ?? '';
+  const currentOffset = offset ?? 0;
+  const currentTab = tab ?? 'all';
 
-  const status = tab === 'all' ? undefined :
-                tab === 'draft' ? 'inactive' :
-                tab as 'active' | 'inactive' | 'archived';
+  const status = currentTab === 'all' ? undefined :
+                currentTab === 'draft' ? 'inactive' :
+                currentTab as 'active' | 'inactive' | 'archived';
 
   const { products, newOffset, totalProducts } = await getProducts(
     search,
-    Number(offset),
+    Number(currentOffset),
     status
   );
 
   return (
     <ProductTabs
       products={products}
-      offset={Number(offset)}
+      offset={Number(currentOffset)}
       totalProducts={totalProducts}
-      currentTab={tab}
+      currentTab={currentTab}
     />
   );
 }
