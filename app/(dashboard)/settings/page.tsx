@@ -1,9 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-export default async function DashboardSettingsPage() {
+export default async function SettingsPage() {
   return (
     <div className="container mx-auto py-10">
-      <h1 className="text-2xl font-bold mb-6">Dashboard Settings</h1>
+      <h1 className="text-2xl font-bold mb-6">Settings</h1>
 
       <div className="grid gap-6">
         <Card>
