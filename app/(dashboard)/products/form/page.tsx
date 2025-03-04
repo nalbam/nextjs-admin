@@ -17,19 +17,24 @@ import { notFound } from 'next/navigation';
 export default async function ProductFormPage({
   searchParams,
 }: {
-  searchParams?: { id?: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
 }) {
   let product = null;
+  const params = await searchParams;
+  const id = params?.id;
 
-  if (searchParams?.id) {
-    product = await db
-      .select()
-      .from(products)
-      .where(eq(products.id, parseInt(searchParams.id)))
-      .then((res) => res[0]);
+  if (id && !Array.isArray(id)) {
+    const productId = parseInt(id);
+    if (!isNaN(productId)) {
+      product = await db
+        .select()
+        .from(products)
+        .where(eq(products.id, productId))
+        .then((res) => res[0]);
 
-    if (!product) {
-      notFound();
+      if (!product) {
+        notFound();
+      }
     }
   }
 
