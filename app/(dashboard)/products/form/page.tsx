@@ -17,7 +17,7 @@ import { notFound } from 'next/navigation';
 export default async function ProductFormPage({
   searchParams,
 }: {
-  searchParams?: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   let product = null;
   const params = await searchParams;
