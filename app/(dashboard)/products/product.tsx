@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
+import { FormattedDate } from './formatted-date';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -48,7 +49,7 @@ export function Product({ product }: { product: SelectProduct }) {
       <TableCell className="hidden md:table-cell">{`$${product.price}`}</TableCell>
       <TableCell className="hidden md:table-cell">{product.stock}</TableCell>
       <TableCell className="hidden md:table-cell">
-        {product.availableAt.toISOString().split('T')[0]}
+        <FormattedDate date={product.availableAt} />
       </TableCell>
       <TableCell>
         <DropdownMenu>
