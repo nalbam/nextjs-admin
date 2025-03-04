@@ -25,7 +25,21 @@ export default async function ProductPage(
     <div className="grid gap-4">
       <Card>
         <CardHeader>
-          <CardTitle>{product.name}</CardTitle>
+          <div className="flex items-center gap-2">
+            <CardTitle>{product.name}</CardTitle>
+            <Badge
+              variant={
+                product.status === 'archived'
+                  ? 'secondary'
+                  : product.status === 'inactive'
+                  ? 'destructive'
+                  : 'outline'
+              }
+              className="capitalize"
+            >
+              {product.status}
+            </Badge>
+          </div>
         </CardHeader>
         <CardContent>
           <div className="grid gap-6">
@@ -37,27 +51,11 @@ export default async function ProductPage(
                 src={product.imageUrl}
                 width={200}
               />
-              <div className="grid gap-2">
-                <h2 className="text-2xl font-bold">{product.name}</h2>
-                <Badge
-                  variant={
-                    product.status === 'archived'
-                      ? 'secondary'
-                      : product.status === 'inactive'
-                      ? 'destructive'
-                      : 'outline'
-                  }
-                  className="w-fit capitalize"
-                >
-                  {product.status}
-                </Badge>
-                <p className="text-lg font-semibold text-primary">
-                  ${product.price}
-                </p>
-              </div>
-            </div>
-            <div className="grid gap-2">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid gap-4">
+                <div>
+                  <h3 className="font-semibold">가격</h3>
+                  <p className="text-lg font-semibold text-primary">${product.price}</p>
+                </div>
                 <div>
                   <h3 className="font-semibold">재고</h3>
                   <p>{product.stock} 개</p>
@@ -68,6 +66,12 @@ export default async function ProductPage(
                 </div>
               </div>
             </div>
+            {product.description && (
+              <div>
+                <h3 className="font-semibold">설명</h3>
+                <p className="text-muted-foreground">{product.description}</p>
+              </div>
+            )}
           </div>
         </CardContent>
       </Card>
