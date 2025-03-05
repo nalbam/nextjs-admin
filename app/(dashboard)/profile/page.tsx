@@ -20,11 +20,11 @@ export default async function ProfilePage() {
 
   return (
     <div className="container mx-auto py-10">
-      <h1 className="text-2xl font-bold mb-6">프로필</h1>
+      <h1 className="text-2xl font-bold mb-6">Profile</h1>
 
       <Card>
         <CardHeader>
-          <CardTitle>프로필 정보</CardTitle>
+          <CardTitle>Profile Information</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -54,10 +54,10 @@ export default async function ProfilePage() {
             </div>
 
             <div className="pt-4 border-t">
-              <h4 className="font-medium mb-2">계정 정보</h4>
+              <h4 className="font-medium mb-2">Account Information</h4>
               <dl className="space-y-2">
                 <div className="flex">
-                  <dt className="w-32 text-gray-500">생성일</dt>
+                  <dt className="w-32 text-gray-500">Created Date</dt>
                   <dd>{new Date().toISOString().split('T')[0]}</dd>
                 </div>
               </dl>
