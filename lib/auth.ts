@@ -1,6 +1,8 @@
 import NextAuth from 'next-auth';
 import GitHub from 'next-auth/providers/github';
 import Google from "next-auth/providers/google"
+import { db, users } from './db';
+import { eq } from 'drizzle-orm';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [GitHub, Google],
@@ -13,6 +15,31 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.provider = token.provider || 'unknown';
       }
       return session;
+    },
+    async signIn({ user, account }) {
+      if (!user.email) return false;
+
+      try {
+        // Check if user exists
+        const existingUser = await db
+          .select()
+          .from(users)
+          .where(eq(users.email, user.email));
+
+        if (existingUser.length === 0) {
+          // Create new user
+          await db.insert(users).values({
+            email: user.email,
+            name: user.name || 'Unknown',
+            image: user.image || null,
+            provider: account?.provider || 'unknown'
+          });
+        }
+        return true;
+      } catch (error) {
+        console.error('Error saving user:', error);
+        return false;
+      }
     },
     async jwt({ token, account }) {
       if (account) {

@@ -18,13 +18,43 @@ import { slackSettings } from './schema/slack';
 
 export const db = drizzle(neon(process.env.POSTGRES_URL!));
 
+// Users table
+export const users = pgTable('users', {
+  email: text('email').primaryKey(),
+  name: text('name').notNull(),
+  image: text('image'),
+  provider: text('provider').notNull(),
+  createdAt: timestamp('created_at').notNull().defaultNow()
+});
+
 // Initialize tables
 db.execute(sql`
-  CREATE TABLE IF NOT EXISTS slack_settings (
-    id SERIAL PRIMARY KEY,
-    settings JSONB NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL
-  );
+CREATE TYPE IF NOT EXISTS status AS ENUM ('active', 'inactive', 'archived');
+
+CREATE TABLE IF NOT EXISTS users (
+  email TEXT PRIMARY KEY,
+  name TEXT NOT NULL,
+  image TEXT,
+  provider TEXT NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS products (
+  id SERIAL PRIMARY KEY,
+  image_url TEXT NOT NULL,
+  name TEXT NOT NULL,
+  description TEXT,
+  status status NOT NULL,
+  price NUMERIC(10, 2) NOT NULL,
+  stock INTEGER NOT NULL,
+  available_at TIMESTAMP NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS slack_settings (
+  id SERIAL PRIMARY KEY,
+  settings JSONB NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
 `);
 
 export const statusEnum = pgEnum('status', ['active', 'inactive', 'archived']);

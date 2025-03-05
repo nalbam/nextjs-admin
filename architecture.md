@@ -39,6 +39,13 @@ graph TD
 
 - **Schema Design**:
   ```sql
+  users
+  ├── email (TEXT PRIMARY KEY)
+  ├── name (TEXT)
+  ├── image (TEXT)
+  ├── provider (TEXT)
+  └── created_at (TIMESTAMP)
+
   products
   ├── id (SERIAL PRIMARY KEY)
   ├── image_url (TEXT)

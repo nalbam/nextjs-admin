@@ -56,6 +56,14 @@ A Postgres database is automatically created when deploying to Vercel. Apply the
 ```sql
 CREATE TYPE status AS ENUM ('active', 'inactive', 'archived');
 
+CREATE TABLE users (
+  email TEXT PRIMARY KEY,
+  name TEXT NOT NULL,
+  image TEXT,
+  provider TEXT NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
 CREATE TABLE products (
   id SERIAL PRIMARY KEY,
   image_url TEXT NOT NULL,
