@@ -96,12 +96,17 @@ vercel env pull
 
 ### 3. Development Server
 
+This project uses pnpm as the package manager for better performance and disk space efficiency.
+
 ```bash
+# Install pnpm if you haven't already
+npm install -g pnpm
+
 # Install dependencies
 pnpm install
 
-# Run development server
-pnpm dev
+# Run development server with Next.js 15 features
+pnpm dev # Uses --turbopack for faster development
 ```
 
 Access the application at http://localhost:3000

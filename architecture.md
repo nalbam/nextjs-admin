@@ -137,10 +137,18 @@ graph LR
 
 1. **Local Development**
    ```bash
-   pnpm dev        # Start development server
-   pnpm build      # Production build
+   # Using pnpm for efficient package management
+   pnpm dev        # Start development server with Turbopack
+   pnpm build      # Production build with Next.js 15
    pnpm start      # Start production server
    ```
+
+   Key Development Features:
+   - Next.js 15 App Router for modern routing
+   - Turbopack for faster development
+   - pnpm for efficient dependency management
+   - TypeScript for type safety
+   - Server Components for optimal performance
 
 2. **Deployment Pipeline**
    - Automatic deployment via Vercel
@@ -151,6 +159,25 @@ graph LR
    - TypeScript for type safety
    - Prettier for code formatting
    - Component-based architecture
+
+## Technology Choices
+
+1. **Next.js 15**
+   - App Router for file-system based routing
+   - Server Components for reduced client-side JavaScript
+   - Server Actions for form handling
+   - Streaming and Suspense for improved loading states
+   - Route Interception for modal views
+   - Built-in TypeScript support
+   - Edge Runtime support
+
+2. **Package Management**
+   - pnpm for dependency management
+     * Faster installation times
+     * Efficient disk space usage
+     * Strict dependency resolution
+     * Improved security with symlinks
+     * Compatible with Node.js and Turbopack
 
 ## Future Considerations
 

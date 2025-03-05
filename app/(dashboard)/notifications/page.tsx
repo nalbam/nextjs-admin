@@ -28,6 +28,8 @@ export default async function NotificationsPage() {
               if (!response.ok) {
                 throw new Error('Failed to save notification settings');
               }
+
+              return { success: true };
             }}
           />
         </Card>
