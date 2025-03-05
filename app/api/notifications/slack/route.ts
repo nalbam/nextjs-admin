@@ -1,16 +1,19 @@
 import { NextRequest } from 'next/server';
 import { db } from '@/lib/db';
-import { sql } from 'drizzle-orm';
+import { eq, desc } from 'drizzle-orm';
+import { slackSettings } from '@/lib/schema/slack';
 import { slackConfigSchema } from '@/types/slack';
 import { initializeSlackService } from '@/lib/slack';
 
 export async function GET() {
   try {
-    const result = await db.execute(
-      sql`SELECT settings FROM slack_settings ORDER BY id DESC LIMIT 1`
-    );
+    const result = await db
+      .select({ settings: slackSettings.settings })
+      .from(slackSettings)
+      .orderBy(desc(slackSettings.id))
+      .limit(1);
 
-    const settings = result.rows[0]?.settings;
+    const settings = result[0]?.settings;
     return Response.json(settings || {});
   } catch (error) {
     console.error('Failed to fetch Slack settings:', error);
@@ -27,9 +30,9 @@ export async function POST(request: NextRequest) {
     initializeSlackService(config);
 
     // Store the settings in the database
-    await db.execute(
-      sql`INSERT INTO slack_settings (settings) VALUES (${JSON.stringify(config)})`
-    );
+    await db.insert(slackSettings).values({
+      settings: config
+    });
 
     return Response.json({ success: true });
   } catch (error) {

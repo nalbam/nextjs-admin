@@ -23,7 +23,7 @@ export function Product({ product }: { product: SelectProduct }) {
           alt="Product image"
           className="aspect-square rounded-md object-cover"
           height="64"
-          src={product.imageUrl}
+          src={product.imageUrl || '/placeholder.svg'}
           width="64"
         />
       </TableCell>
@@ -49,7 +49,7 @@ export function Product({ product }: { product: SelectProduct }) {
       <TableCell className="hidden md:table-cell">{`$${product.price}`}</TableCell>
       <TableCell className="hidden md:table-cell">{product.stock}</TableCell>
       <TableCell className="hidden md:table-cell">
-        <FormattedDate date={product.availableAt} />
+        <FormattedDate date={product.updatedAt} />
       </TableCell>
       <TableCell>
         <DropdownMenu>

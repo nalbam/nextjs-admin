@@ -73,7 +73,7 @@ export default async function ProductFormPage({
                 id="imageUrl"
                 name="imageUrl"
                 type="url"
-                defaultValue={product?.imageUrl}
+                defaultValue={product?.imageUrl || ''}
                 required
               />
             </div>

@@ -42,19 +42,22 @@ graph TD
   users
   ├── email (TEXT PRIMARY KEY)
   ├── name (TEXT)
-  ├── image (TEXT)
+  ├── image_url (TEXT)
   ├── provider (TEXT)
+  ├── updated_at (TIMESTAMP)
   └── created_at (TIMESTAMP)
 
   products
   ├── id (SERIAL PRIMARY KEY)
+  ├── user_id (TEXT FOREIGN KEY REFERENCES users(email))
   ├── image_url (TEXT)
   ├── name (TEXT)
   ├── description (TEXT)
   ├── status (ENUM)
   ├── price (NUMERIC)
   ├── stock (INTEGER)
-  └── available_at (TIMESTAMP)
+  ├── updated_at (TIMESTAMP)
+  └── created_at (TIMESTAMP)
 
   slack_settings
   ├── id (SERIAL PRIMARY KEY)

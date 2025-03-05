@@ -1,7 +1,8 @@
 import NextAuth from 'next-auth';
 import GitHub from 'next-auth/providers/github';
 import Google from "next-auth/providers/google"
-import { db, users } from './db';
+import { db } from './db';
+import { users } from './schema/user';
 import { eq } from 'drizzle-orm';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -29,7 +30,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const userData = {
           email: user.email,
           name: user.name || 'Unknown',
-          image: user.image || null,
+          imageUrl: user.image || null,
           provider: account?.provider || 'unknown'
         };
 
