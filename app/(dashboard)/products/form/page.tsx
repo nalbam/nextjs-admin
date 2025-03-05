@@ -12,13 +12,19 @@ import {
 import { db, products } from '@/lib/db';
 import { eq } from 'drizzle-orm';
 import { saveProduct } from '../actions';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
+import { auth } from '@/lib/auth';
 
 export default async function ProductFormPage({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
+  const session = await auth();
+  if (!session?.user?.email) {
+    redirect('/login');
+  }
+
   let product = null;
   const params = await searchParams;
   const id = params?.id;
@@ -34,6 +40,11 @@ export default async function ProductFormPage({
 
       if (!product) {
         notFound();
+      }
+
+      // Check if the product belongs to the user
+      if (product.userId !== session.user.email) {
+        redirect('/products');
       }
     }
   }

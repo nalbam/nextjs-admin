@@ -1,11 +1,18 @@
 import { getProducts } from '@/lib/db';
 import { ProductTabs } from './product-tabs';
+import { auth } from '@/lib/auth';
+import { redirect } from 'next/navigation';
 
 export default async function ProductsPage(
   props: {
     searchParams: Promise<{ q?: string; offset?: string; tab?: string }>;
   }
 ) {
+  const session = await auth();
+  if (!session?.user?.email) {
+    redirect('/login');
+  }
+
   const { q, offset, tab } = await props.searchParams;
   const search = q ?? '';
   const currentOffset = offset ?? 0;
@@ -18,7 +25,8 @@ export default async function ProductsPage(
   const { products, newOffset, totalProducts } = await getProducts(
     search,
     Number(currentOffset),
-    status
+    status,
+    session.user.email
   );
 
   return (
