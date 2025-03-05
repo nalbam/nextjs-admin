@@ -9,7 +9,7 @@ import { NOTIFICATION_EVENTS, SlackConfig, defaultSlackConfig } from '@/types/sl
 
 interface NotificationPreferencesProps {
   initialConfig?: SlackConfig;
-  onSave: (config: SlackConfig) => Promise<void>;
+  onSave: (config: SlackConfig) => Promise<{ success: boolean }>;
 }
 
 export function NotificationPreferences({

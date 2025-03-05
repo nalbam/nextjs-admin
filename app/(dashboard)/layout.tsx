@@ -1,7 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
 import {
-  Bell,
   Home,
   LineChart,
   Package,
@@ -73,10 +72,6 @@ function DesktopNav() {
         <NavItem href="/settings" label="Settings">
           <Settings className="h-5 w-5" />
         </NavItem>
-
-        <NavItem href="/notifications" label="Notifications">
-          <Bell className="h-5 w-5" />
-        </NavItem>
       </nav>
     </aside>
   );
@@ -127,13 +122,6 @@ function MobileNav() {
           >
             <Settings className="h-5 w-5" />
             Settings
-          </Link>
-          <Link
-            href="/notifications"
-            className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-          >
-            <Bell className="h-5 w-5" />
-            Notifications
           </Link>
         </nav>
       </SheetContent>
