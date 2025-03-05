@@ -101,6 +101,7 @@ graph LR
 - Server-side state management using Server Components
 - Client-side state handled by React hooks
 - Form state managed by controlled components
+- Client-side navigation handled programmatically for table rows to maintain HTML standards and prevent hydration errors
 
 ## Security Measures
 
