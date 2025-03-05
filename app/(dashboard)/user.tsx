@@ -33,11 +33,7 @@ export async function User() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <Link href="/profile" className="w-full">
-          <DropdownMenuItem>Profile</DropdownMenuItem>
-        </Link>
+        <DropdownMenuItem><Link href="/profile">Profile</Link></DropdownMenuItem>
         <DropdownMenuSeparator />
         {user ? (
           <form
@@ -45,16 +41,13 @@ export async function User() {
               'use server';
               await signOut({ redirectTo: '/' });
             }}
-            className="w-full"
           >
             <DropdownMenuItem asChild>
-              <button type="submit" className="w-full text-left">Sign Out</button>
+              <button type="submit" className="text-left">Sign Out</button>
             </DropdownMenuItem>
           </form>
         ) : (
-          <Link href="/login" className="w-full">
-            <DropdownMenuItem>Sign In</DropdownMenuItem>
-          </Link>
+          <DropdownMenuItem><Link href="/login">Sign In</Link></DropdownMenuItem>
         )}
       </DropdownMenuContent>
     </DropdownMenu>
