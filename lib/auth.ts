@@ -26,14 +26,22 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           .from(users)
           .where(eq(users.email, user.email));
 
+        const userData = {
+          email: user.email,
+          name: user.name || 'Unknown',
+          image: user.image || null,
+          provider: account?.provider || 'unknown'
+        };
+
         if (existingUser.length === 0) {
           // Create new user
-          await db.insert(users).values({
-            email: user.email,
-            name: user.name || 'Unknown',
-            image: user.image || null,
-            provider: account?.provider || 'unknown'
-          });
+          await db.insert(users).values(userData);
+        } else {
+          // Update existing user
+          await db
+            .update(users)
+            .set(userData)
+            .where(eq(users.email, user.email));
         }
         return true;
       } catch (error) {
