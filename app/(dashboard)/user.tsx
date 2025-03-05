@@ -33,7 +33,9 @@ export async function User() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem><Link href="/profile">Profile</Link></DropdownMenuItem>
+        <Link href="/profile" className="w-full">
+          <DropdownMenuItem className="cursor-pointer">Profile</DropdownMenuItem>
+        </Link>
         <DropdownMenuSeparator />
         {user ? (
           <form
@@ -47,7 +49,9 @@ export async function User() {
             </DropdownMenuItem>
           </form>
         ) : (
-          <DropdownMenuItem><Link href="/login">Sign In</Link></DropdownMenuItem>
+          <Link href="/login" className="w-full">
+            <DropdownMenuItem className="cursor-pointer">Sign In</DropdownMenuItem>
+          </Link>
         )}
       </DropdownMenuContent>
     </DropdownMenu>
