@@ -42,9 +42,9 @@ graph TD
   ```sql
   users
   ├── email (TEXT PRIMARY KEY)
-  ├── name (TEXT)
+  ├── name (TEXT NOT NULL)
   ├── image_url (TEXT)
-  ├── provider (TEXT)
+  ├── provider (TEXT NOT NULL)
   ├── updated_at (TIMESTAMP)
   └── created_at (TIMESTAMP)
 
@@ -52,7 +52,7 @@ graph TD
   ├── id (SERIAL PRIMARY KEY)
   ├── user_id (TEXT FOREIGN KEY REFERENCES users(email))
   ├── image_url (TEXT)
-  ├── name (TEXT)
+  ├── name (TEXT NOT NULL)
   ├── description (TEXT)
   ├── status (ENUM)
   ├── price (NUMERIC)
