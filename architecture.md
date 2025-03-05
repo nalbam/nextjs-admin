@@ -9,7 +9,7 @@ graph TD
     Client[Client Browser] --> Next[Next.js App Router]
     Next --> Auth[Auth.js]
     Next --> API[API Routes]
-    API --> DB[(Postgres Database)]
+    API --> DB[(Neon Postgres)]
     API --> Slack[Slack Integration]
     Auth --> OAuth[OAuth Providers]
     OAuth --> GitHub[GitHub]
@@ -20,59 +20,74 @@ graph TD
 
 ### 1. Frontend Architecture
 
-- **App Router**: Utilizes Next.js 15's App Router for server-side rendering and routing
-- **Server Components**: Leverages React Server Components for improved performance
-- **Client Components**: Used for interactive UI elements
-- **Layout System**: Hierarchical layouts with shared UI elements
-- **Streaming**: Implements streaming for improved loading states
-- **Route Interception**: Handles modal and overlay views efficiently
-- **Profile Page**:
-  * Displays user profile information (name, email)
-  * Shows OAuth provider (GitHub/Google) with corresponding icon
-  * Displays user profile image with fallback to placeholder
-  * Shows account information including creation date
-  * Implements responsive design with Tailwind CSS
+- **Next.js 15.1.3**: 최신 버전의 Next.js 사용
+  * App Router 기반의 서버 사이드 렌더링
+  * Turbopack을 활용한 빠른 개발 환경
+  * Server Components 활용
+  * TypeScript 기반 개발
+
+- **UI Components**:
+  * Radix UI 기반 컴포넌트 (@radix-ui/react-*)
+  * Tailwind CSS를 활용한 스타일링
+  * 반응형 디자인 구현
+
+- **Analytics**:
+  * @vercel/analytics 통합
+  * 성능 모니터링 및 사용자 행동 분석
 
 ### 2. Authentication System
 
-- **Auth.js Integration**: Manages authentication flow
-- **Multiple Providers**: Supports GitHub and Google OAuth
-- **Session Management**: Server-side session handling
-- **Protected Routes**: Middleware-based route protection
-- **Role-Based Access**: Authorization checks for different user levels
+- **NextAuth 5.0.0-beta.25**:
+  * GitHub, Google OAuth 제공자 지원
+  * 커스텀 로그인 페이지 (/login)
+  * JWT 기반 세션 관리
+  * 사용자 정보 자동 동기화
+  ```typescript
+  callbacks: {
+    session: 사용자 세션에 provider 정보 추가
+    signIn: 사용자 데이터 자동 생성/업데이트
+    jwt: provider 정보를 토큰에 추가
+    authorized: 페이지별 인증 권한 검사
+  }
+  ```
 
 ### 3. Database Layer
 
-- **Schema Design**:
-  ```sql
-  users
-  ├── email (TEXT PRIMARY KEY)
-  ├── name (TEXT NOT NULL)
-  ├── image_url (TEXT)
-  ├── provider (TEXT NOT NULL)
-  ├── updated_at (TIMESTAMP)
-  └── created_at (TIMESTAMP)
+- **Neon Postgres**: 서버리스 PostgreSQL 데이터베이스
+- **Drizzle ORM**: Type-safe 데이터베이스 작업
+- **Schema**:
+  ```typescript
+  // users
+  {
+    email: text('email').primaryKey(),
+    name: text('name').notNull(),
+    imageUrl: text('image_url'),
+    provider: text('provider').notNull(),
+    updatedAt: timestamp('updated_at').defaultNow(),
+    createdAt: timestamp('created_at').defaultNow()
+  }
 
-  products
-  ├── id (SERIAL PRIMARY KEY)
-  ├── user_id (TEXT FOREIGN KEY REFERENCES users(email))
-  ├── image_url (TEXT)
-  ├── name (TEXT NOT NULL)
-  ├── description (TEXT)
-  ├── status (ENUM)
-  ├── price (NUMERIC)
-  ├── stock (INTEGER)
-  ├── updated_at (TIMESTAMP)
-  └── created_at (TIMESTAMP)
+  // products
+  {
+    id: serial('id').primaryKey(),
+    userId: text('user_id').references(() => users.email),
+    imageUrl: text('image_url'),
+    name: text('name').notNull(),
+    description: text('description'),
+    status: text('status').notNull(),
+    price: numeric('price').notNull(),
+    stock: integer('stock').notNull(),
+    updatedAt: timestamp('updated_at').defaultNow(),
+    createdAt: timestamp('created_at').defaultNow()
+  }
 
-  slack_settings
-  ├── id (SERIAL PRIMARY KEY)
-  ├── settings (JSONB)
-  └── created_at (TIMESTAMP)
+  // slack_settings
+  {
+    id: serial('id').primaryKey(),
+    settings: jsonb('settings').notNull(),
+    createdAt: timestamp('created_at').defaultNow()
+  }
   ```
-- **ORM**: Drizzle ORM for type-safe database operations
-- **Migrations**: Automated schema migrations
-- **Connection Pooling**: Efficient database connection management
 
 ### 4. API Architecture
 
@@ -85,123 +100,125 @@ graph LR
     Notifications --> Slack[Slack Webhook]
 ```
 
-- **RESTful Endpoints**: Organized by resource type
-- **API Routes**: Serverless functions for backend logic
-- **Error Handling**: Standardized error responses
-- **Rate Limiting**: Protection against abuse
+- **Product Management**:
+  * 페이지네이션 지원
+  * 검색 기능
+  * 상태 필터링
+  * 사용자별 필터링
+
+- **Data Seeding**:
+  * 초기 데이터 생성
+  * 시퀀스 리셋
+  * Slack 설정 초기화
 
 ### 5. Integration Services
 
 #### Slack Integration
-- Webhook-based notification system
-- Configurable notification settings
-- JSON-based settings storage
+```typescript
+class SlackNotificationService {
+  // 설정
+  config: {
+    enabled: boolean
+    webhookUrl: string
+    channel: string
+    username: string
+    events: string[]
+  }
 
-#### Analytics Integration
-- Vercel Analytics for performance monitoring
-- User behavior tracking
-- Performance metrics collection
+  // 알림 기능
+  notify(event: string, message: string, data?: any) {
+    // 이벤트 기반 알림 발송
+    // 데이터 첨부 기능
+    // 에러 처리
+  }
+}
+```
 
-## State Management
+## Development Environment
 
-- Server-side state management using Server Components
-- Client-side state handled by React hooks
-- Form state managed by controlled components
-- Client-side navigation handled programmatically for table rows to maintain HTML standards and prevent hydration errors
+### Package Management
+```json
+{
+  "dependencies": {
+    "next": "15.1.3",
+    "react": "19.0.0",
+    "next-auth": "5.0.0-beta.25",
+    "@neondatabase/serverless": "^0.9.5",
+    "drizzle-orm": "^0.31.4",
+    "@slack/webhook": "^7.0.4"
+  }
+}
+```
 
-## Security Measures
+### Development Tools
+- pnpm: 효율적인 패키지 관리
+- TypeScript 5.7.2: 타입 안정성
+- Prettier: 코드 포맷팅
+  ```json
+  {
+    "arrowParens": "always",
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "none"
+  }
+  ```
 
-1. **Authentication**
-   - OAuth 2.0 implementation
-   - Secure session management
-   - CSRF protection
+## Security Features
 
-2. **Data Protection**
-   - Input validation
-   - SQL injection prevention
-   - XSS protection
+1. **인증 보안**
+   - OAuth 2.0 프로토콜
+   - JWT 기반 세션
+   - 미들웨어 기반 라우트 보호
 
-3. **API Security**
-   - Route protection
-   - Request validation
-   - Rate limiting
+2. **데이터베이스 보안**
+   - Prepared Statements
+   - 타입 안전성
+   - 참조 무결성
+
+3. **API 보안**
+   - 인증 미들웨어
+   - 입력 값 검증
+   - 에러 처리
 
 ## Performance Optimization
 
-1. **Server-Side Rendering**
-   - Improved initial page load
-   - SEO optimization
-   - Reduced client-side JavaScript
+1. **서버 사이드 최적화**
+   - Server Components
+   - Edge Runtime 지원
+   - 데이터베이스 쿼리 최적화
 
-2. **Asset Optimization**
-   - Image optimization
-   - Code splitting
-   - Bundle size optimization
+2. **클라이언트 사이드 최적화**
+   - Code Splitting
+   - 이미지 최적화
+   - 번들 크기 최적화
 
-3. **Caching Strategy**
-   - Static page caching
-   - API response caching
-   - Database query optimization
+## Deployment
 
-## Development Workflow
-
-1. **Local Development**
-   ```bash
-   # Using pnpm for efficient package management
-   pnpm dev        # Start development server with Turbopack
-   pnpm build      # Production build with Next.js 15
-   pnpm start      # Start production server
-   ```
-
-   Key Development Features:
-   - Next.js 15 App Router for modern routing
-   - Turbopack for faster development
-   - pnpm for efficient dependency management
-   - TypeScript for type safety
-   - Server Components for optimal performance
-
-2. **Deployment Pipeline**
-   - Automatic deployment via Vercel
-   - Environment variable management
-   - Database migrations
-
-3. **Code Quality**
-   - TypeScript for type safety
-   - Prettier for code formatting
-   - Component-based architecture
-
-## Technology Choices
-
-1. **Next.js 15**
-   - App Router for file-system based routing
-   - Server Components for reduced client-side JavaScript
-   - Server Actions for form handling
-   - Streaming and Suspense for improved loading states
-   - Route Interception for modal views
-   - Built-in TypeScript support
-   - Edge Runtime support
-
-2. **Package Management**
-   - pnpm for dependency management
-     * Faster installation times
-     * Efficient disk space usage
-     * Strict dependency resolution
-     * Improved security with symlinks
-     * Compatible with Node.js and Turbopack
+- Vercel 플랫폼 활용
+- 환경 변수 관리
+  ```
+  POSTGRES_URL=
+  NEXTAUTH_URL=
+  NEXTAUTH_SECRET=
+  GITHUB_ID=
+  GITHUB_SECRET=
+  GOOGLE_ID=
+  GOOGLE_SECRET=
+  ```
 
 ## Future Considerations
 
-1. **Scalability**
-   - Horizontal scaling capabilities
-   - Cache layer implementation
-   - Database optimization
+1. **확장성**
+   - 수평적 확장 지원
+   - 캐싱 레이어 도입
+   - 데이터베이스 최적화
 
-2. **Feature Roadmap**
-   - Enhanced analytics dashboard
-   - Additional OAuth providers
-   - Advanced notification system
+2. **기능 로드맵**
+   - 고급 분석 대시보드
+   - 추가 OAuth 제공자
+   - 알림 시스템 강화
 
-3. **Maintenance**
-   - Regular dependency updates
-   - Security patch management
-   - Performance monitoring
+3. **유지보수**
+   - 정기적인 의존성 업데이트
+   - 보안 패치 관리
+   - 성능 모니터링
