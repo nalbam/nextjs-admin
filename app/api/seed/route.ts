@@ -1,8 +1,29 @@
 import { db, products } from 'lib/db';
+import { users } from 'lib/schema/user';
+import { eq } from 'drizzle-orm';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
+  // Create admin user if not exists
+  const existingUser = await db
+    .select()
+    .from(users)
+    .where(eq(users.email, 'admin@example.com'))
+    .then(res => res[0]);
+
+  if (!existingUser) {
+    await db.insert(users).values({
+      email: 'admin@example.com',
+      name: 'Admin User',
+      imageUrl: '/placeholder-user.jpg',
+      provider: 'seed',
+      updatedAt: new Date(),
+      createdAt: new Date()
+    });
+  }
+
+  // Create products
   await db.insert(products).values([
     {
       imageUrl: 'https://uwja77bygk2kgfqe.public.blob.vercel-storage.com/smartphone-gaPvyZW6aww0IhD3dOpaU6gBGILtcJ.webp',
