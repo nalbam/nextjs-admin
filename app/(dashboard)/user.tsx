@@ -35,25 +35,26 @@ export async function User() {
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <Link href="/profile">Profile</Link>
-        </DropdownMenuItem>
+        <Link href="/profile" className="w-full">
+          <DropdownMenuItem>Profile</DropdownMenuItem>
+        </Link>
         <DropdownMenuSeparator />
         {user ? (
-          <DropdownMenuItem>
-            <form
-              action={async () => {
-                'use server';
-                await signOut({ redirectTo: '/' });
-              }}
-            >
-              <button type="submit">Sign Out</button>
-            </form>
-          </DropdownMenuItem>
+          <form
+            action={async () => {
+              'use server';
+              await signOut({ redirectTo: '/' });
+            }}
+            className="w-full"
+          >
+            <DropdownMenuItem asChild>
+              <button type="submit" className="w-full text-left">Sign Out</button>
+            </DropdownMenuItem>
+          </form>
         ) : (
-          <DropdownMenuItem>
-            <Link href="/login">Sign In</Link>
-          </DropdownMenuItem>
+          <Link href="/login" className="w-full">
+            <DropdownMenuItem>Sign In</DropdownMenuItem>
+          </Link>
         )}
       </DropdownMenuContent>
     </DropdownMenu>
