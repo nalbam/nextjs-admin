@@ -21,7 +21,8 @@ graph TD
 
 ### 1. Frontend Architecture
 
-- **Next.js 15.1.3**: 최신 버전의 Next.js 사용
+- **Next.js**: 최신 버전의 Next.js 사용
+  * Turbopack 기반 개발 서버 (next dev --turbopack)
   * App Router 기반의 서버 사이드 렌더링
   * Turbopack을 활용한 빠른 개발 환경
   * Server Components 활용
@@ -38,8 +39,8 @@ graph TD
 
 ### 2. Authentication System
 
-- **NextAuth 5.0.0-beta.25**:
-  * GitHub, Google, Facebook OAuth 제공자 지원
+- **NextAuth**:
+  * Google, GitHub, Facebook OAuth 제공자 지원
   * 커스텀 로그인 페이지 (/login)
   * JWT 기반 세션 관리
   * 사용자 정보 자동 동기화
@@ -75,11 +76,11 @@ graph TD
     imageUrl: text('image_url'),
     name: text('name').notNull(),
     description: text('description'),
-    status: text('status').notNull(),
-    price: numeric('price').notNull(),
+    status: statusEnum('status').notNull(),
+    price: numeric('price', { precision: 10, scale: 2 }).notNull(),
     stock: integer('stock').notNull(),
-    updatedAt: timestamp('updated_at').defaultNow(),
-    createdAt: timestamp('created_at').defaultNow()
+    updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow()
   }
 
   // slack_settings
@@ -102,10 +103,11 @@ graph LR
 ```
 
 - **Product Management**:
-  * 페이지네이션 지원
-  * 검색 기능
-  * 상태 필터링
+  * 페이지네이션 지원 (3개씩 로딩)
+  * 검색 기능 (ilike 패턴 매칭)
+  * 상태 필터링 (active, inactive, archived)
   * 사용자별 필터링
+  * 최신 업데이트 순 정렬
 
 - **Data Seeding**:
   * 초기 데이터 생성
