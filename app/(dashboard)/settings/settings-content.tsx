@@ -4,15 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useTheme } from '@/lib/theme-provider';
-import { NotificationPreferences } from '@/components/notification-preferences';
-import { saveSlackSettings } from './actions';
-import { SlackConfig } from '@/types/slack';
 
-interface SettingsContentProps {
-  initialSlackConfig: SlackConfig;
-}
-
-export function SettingsContent({ initialSlackConfig }: SettingsContentProps) {
+export function SettingsContent() {
   const { theme, setTheme } = useTheme();
 
   return (
@@ -85,14 +78,6 @@ export function SettingsContent({ initialSlackConfig }: SettingsContentProps) {
                   </div>
                   <Checkbox />
                 </div>
-              </div>
-
-              <div className="pt-4 border-t">
-                <h3 className="font-medium mb-4">Slack Integration</h3>
-                <NotificationPreferences
-                  initialConfig={initialSlackConfig}
-                  onSave={saveSlackSettings}
-                />
               </div>
             </div>
           </CardContent>

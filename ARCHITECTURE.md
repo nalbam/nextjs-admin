@@ -10,7 +10,6 @@ graph TD
     Next --> Auth[Auth.js]
     Next --> API[API Routes]
     API --> DB[(Neon Postgres)]
-    API --> Slack[Slack Integration]
     Auth --> OAuth[OAuth Providers]
     OAuth --> Facebook[Facebook]
     OAuth --> GitHub[GitHub]
@@ -82,13 +81,6 @@ graph TD
     updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
     createdAt: timestamp('created_at', { withTimezone: true }).defaultNow()
   }
-
-  // slack_settings
-  {
-    id: serial('id').primaryKey(),
-    settings: jsonb('settings').notNull(),
-    createdAt: timestamp('created_at').defaultNow()
-  }
   ```
 
 ### 4. API Architecture
@@ -97,9 +89,7 @@ graph TD
 graph LR
     API[API Routes] --> Auth[Authentication]
     API --> Products[Product Management]
-    API --> Notifications[Notifications]
     API --> Seeding[Data Seeding]
-    Notifications --> Slack[Slack Webhook]
 ```
 
 - **Product Management**:
@@ -112,30 +102,6 @@ graph LR
 - **Data Seeding**:
   * 초기 데이터 생성
   * 시퀀스 리셋
-  * Slack 설정 초기화
-
-### 5. Integration Services
-
-#### Slack Integration
-```typescript
-class SlackNotificationService {
-  // 설정
-  config: {
-    enabled: boolean
-    webhookUrl: string
-    channel: string
-    username: string
-    events: string[]
-  }
-
-  // 알림 기능
-  notify(event: string, message: string, data?: any) {
-    // 이벤트 기반 알림 발송
-    // 데이터 첨부 기능
-    // 에러 처리
-  }
-}
-```
 
 ## Development Environment
 
@@ -147,8 +113,7 @@ class SlackNotificationService {
     "react": "19.0.0",
     "next-auth": "5.0.0-beta.25",
     "@neondatabase/serverless": "^0.9.5",
-    "drizzle-orm": "^0.31.4",
-    "@slack/webhook": "^7.0.4"
+    "drizzle-orm": "^0.31.4"
   }
 }
 ```

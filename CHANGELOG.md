@@ -2,6 +2,15 @@
 
 ## [Unreleased]
 
+### Removed
+- Slack 관련 기능 제거
+  - Slack Webhook 통합 기능 제거
+  - Slack 알림 설정 기능 제거
+  - 관련 API 엔드포인트 제거 (/api/notifications/slack, /api/seed/slack-settings)
+  - Slack 관련 스키마 및 타입 정의 제거
+  - @slack/webhook 의존성 제거
+  - ARCHITECTURE.md에서 Slack 관련 내용 제거
+
 ### Added
 - Facebook OAuth 로그인 기능 추가
   - `lib/auth.ts`에 Facebook Provider 추가
