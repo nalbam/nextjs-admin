@@ -1,6 +1,6 @@
 import { auth } from "@/lib/auth"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { GitHubIcon, GoogleIcon } from "@/components/icons"
+import { FacebookIcon, GitHubIcon, GoogleIcon } from "@/components/icons"
 import Image from "next/image"
 
 export default async function ProfilePage() {
@@ -9,6 +9,8 @@ export default async function ProfilePage() {
 
   const ProviderIcon = () => {
     switch (session.user.provider) {
+      case "facebook":
+        return <FacebookIcon className="h-5 w-5" />
       case "github":
         return <GitHubIcon className="h-5 w-5" />
       case "google":

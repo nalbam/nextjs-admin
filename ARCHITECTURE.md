@@ -12,6 +12,7 @@ graph TD
     API --> DB[(Neon Postgres)]
     API --> Slack[Slack Integration]
     Auth --> OAuth[OAuth Providers]
+    OAuth --> Facebook[Facebook]
     OAuth --> GitHub[GitHub]
     OAuth --> Google[Google]
 ```
@@ -38,7 +39,7 @@ graph TD
 ### 2. Authentication System
 
 - **NextAuth 5.0.0-beta.25**:
-  * GitHub, Google OAuth 제공자 지원
+  * GitHub, Google, Facebook OAuth 제공자 지원
   * 커스텀 로그인 페이지 (/login)
   * JWT 기반 세션 관리
   * 사용자 정보 자동 동기화

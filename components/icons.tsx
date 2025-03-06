@@ -6,11 +6,7 @@ export function UsersIcon(props: React.SVGProps<SVGSVGElement>) {
       width="24"
       height="24"
       viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      fill="#181717"
     >
       <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
       <circle cx="9" cy="7" r="4" />
@@ -113,17 +109,15 @@ export function GitHubIcon(props: React.SVGProps<SVGSVGElement>) {
     <svg
       {...props}
       xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 100 100"
       width="24"
       height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
     >
-      <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
-      <path d="M9 18c-4.51 2-5-2-7-2" />
+      <circle cx="50" cy="50" r="48" fill="#181717" />
+      <path
+        fill="#ffffff"
+        d="M50 25.8c-13.4 0-24.2 10.9-24.2 24.2 0 10.7 6.9 19.8 16.5 23 1.2.2 1.7-.5 1.7-1.2v-4.2c-6.7 1.5-8.1-3.2-8.1-3.2-1.1-2.8-2.7-3.5-2.7-3.5-2.2-1.5.2-1.5.2-1.5 2.4.2 3.7 2.5 3.7 2.5 2.1 3.7 5.6 2.6 7 2 .2-1.6.8-2.6 1.5-3.2-5.3-.6-10.9-2.7-10.9-11.9 0-2.6.9-4.8 2.5-6.5-.2-.6-1.1-3.1.2-6.5 0 0 2-.6 6.6 2.5 1.9-.5 4-.8 6-.8s4.1.3 6 .8c4.6-3.1 6.6-2.5 6.6-2.5 1.3 3.4.5 5.9.2 6.5 1.6 1.7 2.5 3.9 2.5 6.5 0 9.3-5.6 11.4-11 11.9.9.8 1.7 2.3 1.7 4.6v6.8c0 .7.5 1.4 1.7 1.2 9.6-3.2 16.5-12.3 16.5-23 0-13.3-10.9-24.2-24.2-24.2z"
+      />
     </svg>
   );
 }
@@ -157,19 +151,20 @@ export function GoogleIcon(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
-export function VercelLogo(props: React.SVGProps<SVGSVGElement>) {
+export function FacebookIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
-      aria-label="Vercel logomark"
-      height="64"
-      role="img"
-      viewBox="0 0 74 64"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 48 48"
+      width="24"
+      height="24"
     >
+      <circle cx="24" cy="24" r="24" fill="#1877F2" />
       <path
-        d="M37.5896 0.25L74.5396 64.25H0.639648L37.5896 0.25Z"
-        fill="currentColor"
-      ></path>
+        fill="#ffffff"
+        d="M32.5 24H27v18h-7V24h-4v-6h4v-3.9c0-4.2 2.2-6.7 7-6.7h4.3v6H29c-1.3 0-1.7.7-1.7 1.8V18h4.8l-.6 6z"
+      />
     </svg>
   );
 }
