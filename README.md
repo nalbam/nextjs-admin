@@ -23,7 +23,6 @@ For detailed technical information and architecture details, please refer to [ar
 - 📦 Product Management
 - 🔍 Search & Filtering
 - 📈 Data Visualization
-- 🔔 Slack Notifications Integration
 
 ## Getting Started
 

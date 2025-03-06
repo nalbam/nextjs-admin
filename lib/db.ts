@@ -14,7 +14,6 @@ import {
 } from 'drizzle-orm/pg-core';
 import { count, eq, ilike, and, desc } from 'drizzle-orm';
 import { createInsertSchema } from 'drizzle-zod';
-import { slackSettings } from './schema/slack';
 import { users } from './schema/user';
 import { products } from './schema/product';
 
@@ -43,12 +42,6 @@ CREATE TABLE IF NOT EXISTS products (
   price NUMERIC(10, 2) NOT NULL,
   stock INTEGER NOT NULL,
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS slack_settings (
-  id SERIAL PRIMARY KEY,
-  settings JSONB NOT NULL,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 `);
